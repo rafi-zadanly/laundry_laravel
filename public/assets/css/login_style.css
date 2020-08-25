@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Poppins&display=swap');
+
+html, body, .container-full-screen{
+    width: 100vw;
+    height: 100vh;
+    scroll-behavior: smooth;
+}
+
+.montserrat-font{
+    font-family: 'Montserrat', sans-serif;
+}
+
+.poppins-font{
+    font-family: 'Poppins', sans-serif;
+}
+
+.container-full-screen{
+    background: #40789b;
+}
+
+.home-btn-wrapper{
+    margin-top: 20vh;
+}
+
+h3{
+    font-weight: 600;
+    letter-spacing: 0.03rem;
+}
+
+.fa-home{
+    font-size: 25px;
+}
+
+.form-wrapper{
+    position: absolute;
+    transform: translate(-50%, -25%);
+    left: 50%;
+    top: -25%;
+    width: 30%;
+    opacity: 0;
+    background-color: #f1faee;
+    transition: ease-in-out 0.8s;
+}
+
+.form-wrapper.form-active{
+    position: absolute;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
+    width: 30%;
+    opacity: 1;
+    background-color: #f1faee;
+    border-top: 5px solid #e71d36;
+}
+
+.letters-spacing{
+    letter-spacing: 1px;
+}
+
+.input-title, .form-input{
+    font-size: 14px;
+    letter-spacing: 0.3px;
+}
+
+.form-input:focus{
+    box-shadow: 0 0 0 0.05rem #e71d36;
+}
+
+.input-title{
+    width: 100px;
+    font-weight: 500;
+    letter-spacing: 0.05rem;
+    background-color: #b12233;
+}
+
+.pwstatus{
+    font-size: 14px;
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.pwstatus:hover{
+    opacity: 1;
+    transition: ease-in-out 0.3s;
+}
+
+.btn-gradient{
+    background-color: #e71d36;
+    font-size: 14px;
+    width: 100%;
+}
+
+.btn-gradient:hover{
+    background-color: #fa0b27;
+    transition: ease-in-out 0.3s;
+}
+
+
+
+
