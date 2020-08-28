@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Cabang;
 use App\Pengguna;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -62,44 +63,79 @@ class PageController extends Controller
 
     public function data_pengguna(){
         $data_pengguna = Pengguna::all();
+        $data_cabang = [];
+        foreach ($data_pengguna as $p) {
+            $data_cabang[] = Cabang::find($p->id_cabang);
+        }
         $data = [
             'page_group' => '',
             'page_name' => 'data_pengguna',
             'data_pengguna' => $data_pengguna,
+            'data_cabang' => $data_cabang
         ];
+        
         return view('admin_page.data_pengguna', $data);
     }
 
     public function data_pengguna_tambah(){
+        $cabang = Cabang::all();
         $data = [
             'page_group' => '',
             'page_name' => 'data_pengguna',
+            'data_cabang' => $cabang
         ];
         return view('admin_page.data_pengguna_tambah', $data);
     }
 
     public function data_pengguna_ubah(Request $request){
-        $data_pengguna = Pengguna::where('id', $request->id)->first();
-        $jumlah_data = Pengguna::where('id', $request->id)->count();
-        $data = [
-            'page_group' => '',
-            'page_name' => 'data_pengguna',
-            'pengguna' => $data_pengguna,
-        ];
-        if ($jumlah_data > 0) {
+        $data_check = Pengguna::find($request->id);
+        if ($data_check != NULL) {
+            $data_pengguna = Pengguna::find($request->id);
+            $cabang = Cabang::all();
+            $data = [
+                'page_group' => '',
+                'page_name' => 'data_pengguna',
+                'pengguna' => $data_pengguna,
+                'data_cabang' => $cabang
+            ];
             return view('admin_page.data_pengguna_ubah', $data);
         }else{
             return redirect('data_pengguna')->with('alert', "Data Pengguna dengan id ( $request->id ) tidak ditemukan.")->with('type', 'failed');
         }
-        
     }
 
-    public function cabang_toko(){
+    public function cabang(){
+        $data_cabang = Cabang::all();
         $data = [
             'page_group' => '',
-            'page_name' => 'cabang_toko',
+            'page_name' => 'cabang',
+            'data_cabang' => $data_cabang
         ];
-        return view('admin_page.cabang_toko', $data);
+        return view('admin_page.cabang', $data);
+    }
+
+    public function cabang_tambah(){
+        $data = [
+            'page_group' => '',
+            'page_name' => 'cabang',
+        ];
+        return view('admin_page.cabang_tambah', $data);
+    }
+
+    public function cabang_ubah(Request $request){
+        $data_check = Cabang::find($request->id);
+        if ($data_check != NULL) {
+            $data_cabang = Cabang::find($request->id);
+            $data = [
+                'page_group' => '',
+                'page_name' => 'cabang',
+                'cabang' => $data_cabang,
+            ];
+            return view('admin_page.cabang_ubah', $data);
+        }else{
+            return redirect('cabang')->with('alert', "Data Pengguna dengan id ( $request->id ) tidak ditemukan.")->with('type', 'failed');
+        }
+        
     }
 
     public function laporan(){

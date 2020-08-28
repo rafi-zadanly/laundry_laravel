@@ -1,3 +1,8 @@
+<?php
+use Illuminate\Support\Facades\Session;
+
+$status = Session::get('status'); 
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,6 +23,7 @@
     <!-- Font-Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jq-3.3.1/jszip-2.5.0/dt-1.10.21/b-1.6.3/b-html5-1.6.3/r-2.2.5/datatables.min.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 <body>
     <div class="d-flex" id="wrapper">
@@ -31,6 +37,7 @@
                 <a href="/dasbor" class="list-group-item list-group-item-action {{ $page_name == 'dasbor' ? 'active disabled' : '' }}">
                     <i class="fa fa-tachometer-alt side-nav-icon" aria-hidden="true"></i>Dasbor
                 </a>
+                @if(in_array($status, ['kasir', 'admin']))
                 <a href="/paket_laundry" class="list-group-item list-group-item-action {{ $page_name == 'paket_laundry' ? 'active disabled' : '' }}">
                     <i class="fa fa-box side-nav-icon" aria-hidden="true"></i>Paket Laundry
                 </a>
@@ -64,12 +71,13 @@
                         </div>
                     </div>
                 </div>
-                @if(Session::get('status') == 'admin')
+                @endif
+                @if($status == 'admin')
                 <a href="/data_pengguna" class="list-group-item list-group-item-action {{ $page_name == 'data_pengguna' ? 'active disabled' : '' }}">
                     <i class="fa fa-user side-nav-icon" aria-hidden="true"></i>Data Pengguna
                 </a>
-                <a href="/cabang_toko" class="list-group-item list-group-item-action {{ $page_name == 'cabang_toko' ? 'active disabled' : '' }}">
-                    <i class="fa fa-store side-nav-icon" aria-hidden="true"></i>Cabang Toko
+                <a href="/cabang" class="list-group-item list-group-item-action {{ $page_name == 'cabang' ? 'active disabled' : '' }}">
+                    <i class="fa fa-store side-nav-icon" aria-hidden="true"></i>Cabang
                 </a>
                 @endif
                 <a href="/laporan" class="list-group-item list-group-item-action {{ $page_name == 'laporan' ? 'active disabled' : '' }}">
@@ -89,22 +97,16 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                        <li class="nav-item dropdown">
-                            <button class="btn nav-link dropdown-toggle text-dark" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="/assets/img/myphoto.jpg" alt="" class="img-fluid rounded-circle user-photo">
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <span class="dropdown-item disabled text-center text-capitalize">
-                                    {{ Session::get('nama_lengkap') }}
-                                </span>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/pengaturan">
-                                    <i class="fa fa-cog dropdown-logo" aria-hidden="true"></i>Pengaturan
-                                </a>
-                                <a class="dropdown-item" href="/keluar">
-                                    <i class="fas fa-sign-out-alt dropdown-logo" aria-hidden="true"></i>Keluar
-                                </a>
-                            </div>
+                        <li class="nav-item">
+                            <span class="text-center text-capitalize">
+                                {{ Session::get('nama_lengkap') }}
+                            </span>
+                        </li>
+                        <li class="nav-item ml-3 mr-3">|</li>
+                        <li class="nav-item mr-3">
+                            <a href="/keluar">
+                                <i class="fa fa-power-off" aria-hidden="true"></i>
+                            </a>
                         </li>
                     </ul>
                 </div>
@@ -139,6 +141,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/jszip-2.5.0/dt-1.10.21/b-1.6.3/b-html5-1.6.3/r-2.2.5/datatables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <script src="/assets/js/script.js"></script>
 
     <!-- Menu Toggle Script -->
@@ -227,6 +230,7 @@
         });
 
         $('#table').DataTable();
+        $('#select').select2()
     </script>
 
 </body>

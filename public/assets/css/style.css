@@ -182,3 +182,13 @@ span.required-input{color: red;}
     margin-left: -15rem;
   }
 }
+
+input[type=number].no-prop::-webkit-outer-spin-button,
+input[type=number].no-prop::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number].no-prop {
+    -moz-appearance:textfield;
+}

@@ -5,14 +5,12 @@ namespace App\Http\Controllers;
 use App\Pengguna;
 use App\Rules\notNull;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-use NahidulHasan\Html2pdf\Facades\Pdf;
 
-class DataController extends Controller
+class DataPenggunaController extends Controller
 {
     public function konfirmasi_masuk(Request $request){
         $nama_pengguna = $request->username;
@@ -44,25 +42,19 @@ class DataController extends Controller
         ], $messages);
 
         if ($validator->fails()) {
-            return redirect('data_pengguna/tambah')->withErrors($validator)->withInput();
+            return redirect()->back()->withErrors($validator)->withInput();
         }else{
-            $nama_lengkap = $request->nama_lengkap;
-            $nama_pengguna = $request->nama_pengguna;
-            $kata_sandi = $request->kata_sandi;
-            $cabang_toko = $request->cabang_toko;
-            $status_pengguna = $request->status_pengguna;
-
             $data = new Pengguna();
-            $data->nama_lengkap = $nama_lengkap;
-            $data->nama_pengguna = $nama_pengguna;
-            $data->kata_sandi = Hash::make($kata_sandi);
-            $data->id_cabang = $cabang_toko;
-            $data->status = $status_pengguna;
+            $data->nama_lengkap = $request->nama_lengkap;
+            $data->nama_pengguna = $request->nama_pengguna;
+            $data->kata_sandi = Hash::make($request->kata_sandi);
+            $data->id_cabang = $request->cabang;
+            $data->status = $request->status_pengguna;
             
             if ($data->save()) {
                 return redirect('data_pengguna')->with('alert', 'Berhasil menambahkan pengguna baru, akun tersebut sudah dapat masuk.')->with('type', 'success');
             }else{
-                return redirect('data_pengguna/tambah')->with('alert', 'Terjadi Kesalahan pada sistem, coba lagi nanti.')->with('type', 'failed');
+                return redirect()->back()->with('alert', 'Terjadi Kesalahan pada sistem, coba lagi nanti.')->with('type', 'failed');
             }
         }
         
@@ -80,21 +72,15 @@ class DataController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }else{
-            $nama_lengkap = $request->nama_lengkap;
-            $nama_pengguna = $request->nama_pengguna;
-            $kata_sandi = $request->kata_sandi;
-            $cabang_toko = $request->cabang_toko;
-            $status_pengguna = $request->status_pengguna;
-
             $data = Pengguna::where('id', $request->id);
             $update_data = [
-                'nama_lengkap' => $nama_lengkap,
-                'nama_pengguna' => $nama_pengguna,
-                'id_cabang' => $cabang_toko,
-                'status' => $status_pengguna,
+                'nama_lengkap' => $request->nama_lengkap,
+                'nama_pengguna' => $request->nama_pengguna,
+                'id_cabang' => $request->cabang,
+                'status' => $request->status_pengguna,
             ];
-            if ($kata_sandi != "") {
-                $update_data['kata_sandi'] = Hash::make($kata_sandi);
+            if ($request->kata_sandi != "") {
+                $update_data['kata_sandi'] = Hash::make($request->kata_sandi);
             }
             
             if ($data->update($update_data)) {
