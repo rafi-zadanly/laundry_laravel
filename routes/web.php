@@ -1,10 +1,15 @@
 <?php
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 // Start Landing page Routing
-Route::get('/', 'DataController@html2pdf');
+Route::get('/', function(){
+    $pdf = App::make('dompdf.wrapper');
+    $pdf->loadHTML('<h1><center>Test</center></h1>');
+    return $pdf->stream();
+});
 // End Landing Page Routing
 
 // Start Page Routing
@@ -31,6 +36,7 @@ Route::middleware(['iskasiroradmin'])->group(function(){
 Route::middleware(['isalluserlevel'])->group(function(){
     Route::get('/dasbor', 'PageController@dasbor');
     Route::get('/laporan', 'PageController@laporan');
+    Route::post('/laporan/cetak', 'LaporanController@cetak');
 });
 
 Route::get('/keluar', 'PageController@keluar');

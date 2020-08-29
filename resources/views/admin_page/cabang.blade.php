@@ -34,9 +34,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php $num = 0; ?>
+                    @php $num = 0 @endphp
                     @foreach ($data_cabang as $cabang)
-                    <?php $num++; ?>
+                    @php $num++ @endphp
                     <tr>
                         <td scope="row"><?= $num ?></td>
                         <td><?= $cabang->nama ?></td>

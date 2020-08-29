@@ -230,7 +230,7 @@ $status = Session::get('status');
         });
 
         $('#table').DataTable();
-        $('#select').select2()
+        $('.select').select2()
     </script>
 
 </body>

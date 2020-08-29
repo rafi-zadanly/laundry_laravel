@@ -48,7 +48,7 @@
             </div>
             <div class="form-group">
                 <label for="">Cabang<span class="required-input">*</span></label>
-                <select name="cabang" id="select" class="form-control @error('cabang') is-invalid @enderror">
+                <select name="cabang" class="form-control select @error('cabang') is-invalid @enderror">
                     <option value="NULL">Pilih Cabang</option>
                     @foreach ($data_cabang as $cabang)
                     <option value="{{ $cabang->id }}">[{{ $cabang->id }}] {{ $cabang->nama }}</option>
